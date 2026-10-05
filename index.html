@@ -1,217 +1,233 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculadora de Custo de Viagem</title>
-    <!-- Favicon em SVG integrado diretamente (Bomba de Combustível + Rateio) -->
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2327ae60'><path d='M19 2.5E-1H5C3.6 2.5E-1 2.5 1.35 2.5 2.75V21.25C2.5 22.65 3.6 23.75 5 23.75H19C20.4 23.75 21.5 22.65 21.5 21.25V2.75C21.5 1.35 20.4 2.5E-1 19 2.5E-1ZM12 18C10.34 18 9 16.66 9 15C9 13.34 10.34 12 12 12C13.66 12 15 13.34 15 15C15 16.66 13.66 18 12 18ZM18 10H6V4H18V10Z'/></svg>">
-    <link rel="stylesheet" href="style.css">
-    <!-- Biblioteca jsPDF para exportação de relatórios em PDF -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- TÍTULO PRINCIPAL PARA BUSCAS (SEO) -->
+  <title>Calculadora de Custo de Viagem - Combustível, Pedágio e Rateio</title>
+
+  <!-- DESCRIÇÃO COMPLETA PARA O GOOGLE -->
+  <meta name="description" content="Calcule o custo total da sua viagem de carro ou moto. Simule consumo ajustado por peso, pedágios, comparador etanol vs gasolina, divisão de despesas por pessoa e chave PIX para rateio.">
+
+  <!-- PALAVRAS-CHAVE ABRANGENTES (SEO) -->
+  <meta name="keywords" content="calculadora de viagem, calcular custo de viagem, calculadora de combustível, quanto custa viajar de carro, calcular pedágio e combustível, divisão de despesas de viagem, racha gasolina, rateio de viagem pix, comparador etanol ou gasolina, consumo de combustível por peso, calcular viagem de moto, autonomia de combustível na estrada, custo por km rodado, planejamento financeiro de viagem">
+
+  <meta name="author" content="Rodrigo">
+
+  <!-- META TAGS PARA COMPARTILHAMENTO (WhatsApp, Telegram, Redes Sociais) -->
+  <meta property="og:title" content="Calculadora de Custo de Viagem - Combustível, Pedágio e Rateio">
+  <meta property="og:description" content="Simule gastos com combustível, peso do veículo, pedágio e divida a conta facilmente com os passageiros.">
+  <meta property="og:type" content="website">
+
+  <!-- FAVICON E RECURSOS -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2327ae60'><path d='M19 2.5E-1H5C3.6 2.5E-1 2.5 1.35 2.5 2.75V21.25C2.5 22.65 3.6 23.75 5 23.75H19C20.4 23.75 21.5 22.65 21.5 21.25V2.75C21.5 1.35 20.4 2.5E-1 19 2.5E-1ZM12 18C10.34 18 9 16.66 9 15C9 13.34 10.34 12 12 12C13.66 12 15 13.34 15 15C15 16.66 13.66 18 12 18ZM18 10H6V4H18V10Z'/></svg>">
+  <link rel="stylesheet" href="style.css">
+  <!-- CDN da biblioteca jsPDF para geração do relatório em PDF -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
 <body>
-
-    <div class="main-wrapper">
-        <!-- BANNER SUPERIOR DE ANÚNCIO (ADSENSE) -->
-        <div class="ad-banner ad-top">
-            <span class="ad-label">Publicidade</span>
-        </div>
-
-        <!-- CONTAINER PRINCIPAL E BARRA LATERAL -->
-        <div class="content-container">
-            <main class="container">
-                <button id="theme-toggle" class="btn-theme">Modo Escuro</button>
-
-                <h1>Calculadora de Viagem 🚗🏍️</h1>
-                <p>Calcule o custo do combustível considerando o peso do veículo, passageiros, bagagens e pedágios.</p>
-
-                <!-- Seleção Rápida de Veículo -->
-                <div class="preset-group">
-                    <label>Predefinição de Veículo:</label>
-                    <div class="preset-buttons">
-                        <button type="button" class="btn-preset active" data-tipo="moto" data-consumo="30" data-peso="140">🏍️ Moto (~140 kg)</button>
-                        <button type="button" class="btn-preset" data-tipo="carro" data-consumo="14" data-peso="980">🚗 Hatch 1.0 (~980 kg)</button>
-                        <button type="button" class="btn-preset" data-tipo="carro" data-consumo="11" data-peso="1250">🚙 Sedan (~1.250 kg)</button>
-                        <button type="button" class="btn-preset" data-tipo="carro" data-consumo="9" data-peso="1550">🚘 SUV médio (~1.550 kg)</button>
-                    </div>
-                </div>
-
-                <form id="calc-form">
-                    <!-- Tipo de Trajeto -->
-                    <div class="input-group">
-                        <label>Tipo de Trajeto:</label>
-                        <div class="radio-group">
-                            <label><input type="radio" name="tipo_trajeto" value="ida" checked> Apenas Ida</label>
-                            <label><input type="radio" name="tipo_trajeto" value="idavolta"> Ida e Volta</label>
-                        </div>
-                    </div>
-
-                    <div class="input-group">
-                        <label for="distancia">Distância (km de um trecho):</label>
-                        <input type="number" id="distancia" placeholder="Ex: 300" step="0.1" required>
-                    </div>
-
-                    <div class="input-group">
-                        <label for="consumo">Consumo do Veículo Vazio (km/l):</label>
-                        <input type="number" id="consumo" placeholder="Ex: 30" step="0.1" value="30" required>
-                    </div>
-
-                    <div class="input-group">
-                        <label for="preco">Preço do Combustível (R$/litro):</label>
-                        <input type="number" id="preco" placeholder="Ex: 5.80" step="0.01" required>
-                    </div>
-
-                    <!-- SEÇÃO DE PESOS DINÂMICA (VEÍCULO + CARGA) -->
-                    <div class="input-group-row">
-                        <div class="input-group">
-                            <label for="peso-carro" id="label-peso-veiculo">Peso da Moto (kg):</label>
-                            <input type="number" id="peso-carro" placeholder="Ex: 140" min="50" value="140">
-                        </div>
-                        <div class="input-group">
-                            <label for="peso-bagagem" id="label-bagagem">Mala / Bauletos / Bags (kg):</label>
-                            <input type="number" id="peso-bagagem" placeholder="Ex: 0" min="0" value="0">
-                        </div>
-                    </div>
-
-                    <div class="input-group-row">
-                        <div class="input-group">
-                            <label for="passageiros" id="label-passageiros">Nº de Ocupantes (Piloto + Garupa):</label>
-                            <input type="number" id="passageiros" value="1" min="1" max="2" required>
-                        </div>
-                        <div class="input-group">
-                            <label for="peso-pessoa">Peso Médio p/ Pessoa (kg):</label>
-                            <input type="number" id="peso-pessoa" placeholder="Ex: 75" min="30" value="75">
-                        </div>
-                    </div>
-
-                    <div class="input-group">
-                        <label for="pedagio">Pedágios / Custos Extras Totais (R$):</label>
-                        <input type="number" id="pedagio" placeholder="Ex: 15.00" step="0.01" value="0">
-                    </div>
-
-                    <!-- Chave PIX Opcional -->
-                    <div class="input-group">
-                        <label for="pix">Chave PIX do Piloto / Motorista (Opcional):</label>
-                        <input type="text" id="pix" placeholder="CPF, Celular, E-mail ou Aleatória">
-                    </div>
-
-                    <!-- Opção de Arredondamento PIX -->
-                    <div class="input-group checkbox-group">
-                        <label>
-                            <input type="checkbox" id="arredondar-pix"> Arredondar valor por pessoa para facilitar o PIX
-                        </label>
-                    </div>
-
-                    <button type="submit" class="btn-submit">Calcular Custo</button>
-                </form>
-
-                <!-- Comparador Flex Rápido -->
-                <div class="flex-calculator">
-                    <h3>⛽ Comparador Gasolina vs. Etanol</h3>
-                    <div class="flex-inputs">
-                        <input type="number" id="flex-gasolina" placeholder="Preço Gasolina (R$)" step="0.01">
-                        <input type="number" id="flex-etanol" placeholder="Preço Etanol (R$)" step="0.01">
-                    </div>
-                    <p id="flex-resultado" class="flex-res-text">Digite os preços para comparar qual compensa mais.</p>
-                </div>
-
-                <!-- Painel de Resultados -->
-                <div id="resultado" class="resultado hidden">
-                    <h2>Resultado do Cálculo</h2>
-                    <p>Distância Total: <strong id="distancia-total-res">-</strong></p>
-                    <p>Peso do Veículo (Vazio): <strong id="peso-carro-res">-</strong> kg</p>
-                    <p>Peso dos Ocupantes + Carga/Bags: <strong id="peso-carga-res">-</strong> kg</p>
-                    <p>Peso Bruto Total na Rodovia: <strong id="peso-total-bruto-res">-</strong> kg</p>
-                    <p>Consumo Reajustado pelo Peso: <strong id="consumo-ajustado-res">-</strong> km/l</p>
-                    <p>Litros necessários: <strong id="litros-totais">-</strong> L</p>
-                    <p>Custo do combustível: <strong id="custo-combustivel">-</strong></p>
-                    <p>Pedágios / Extras: <strong id="custo-pedagio">-</strong></p>
-                    <p>Custo total da viagem: <strong id="custo-total">-</strong></p>
-                    <p>Custo estimado por km: <strong id="custo-km">-</strong></p>
-                    <hr>
-                    <p class="destaque">Valor por pessoa: <strong id="custo-passageiro">-</strong></p>
-
-                    <!-- Seção da Chave PIX -->
-                    <div id="pix-qr-container" class="pix-container hidden">
-                        <p class="pix-title"><strong>Chave PIX para Transferência:</strong></p>
-                        <div class="pix-copy-wrapper">
-                            <span id="pix-key-display"></span>
-                            <button type="button" id="btn-copy-pix" class="btn-copy">Copiar Chave PIX</button>
-                        </div>
-                    </div>
-
-                    <!-- Botões de Ação: WhatsApp e PDF -->
-                    <div class="action-buttons-wrapper">
-                        <button id="btn-whatsapp" class="btn-whatsapp">📲 Compartilhar no WhatsApp</button>
-                        <button id="btn-pdf" class="btn-pdf">📄 Baixar Relatório PDF</button>
-                    </div>
-                </div>
-
-                <!-- BANNER DE ANÚNCIO MOBILE INTERMEDIÁRIO -->
-                <div class="ad-banner ad-infeed">
-                    <span class="ad-label">Publicidade</span>
-                </div>
-
-                <!-- Guia SEO & Educativo para Indexação -->
-                <article class="guide-article">
-                    <h2>Guia Prático: Como Planejar e Economizar no Combustível da Viagem</h2>
-                    <p>Planejar os custos de uma viagem de carro ou moto envolve muito mais do que apenas multiplicar a distância pelo preço da gasolina na bomba. Diversos fatores operacionais — especialmente o peso extra transportado — alteram significativamente a eficiência energética do veículo nas rodovias.</p>
-
-                    <h3>Como calcular o consumo real de combustível?</h3>
-                    <p>O consumo oficial informado pelos fabricantes considera testes em condições ideais de laboratório com o veículo vazio. Para obter o consumo real durante uma viagem, divida a distância percorrida pela quantidade de litros necessários para encher o tanque novamente. Em viagens rodoviárias longas, considere sempre uma margem de reserva de 10% a 15% acima do valor obtido no cálculo de rotina.</p>
-
-                    <h3>Como o peso de bagagens, garupa e passageiros altera o consumo?</h3>
-                    <p>A física do veículo é diretamente afetada pela massa total: quanto maior o peso bruto em ordem de marcha, mais energia o motor precisa gerar para vencer a inércia e manter a velocidade de cruzeiro. Em motos, a adição de garupa e bauletos laterais pode aumentar a massa total em até 80%, resultando em uma queda de autonomia entre 20% e 30%. Nos automóveis, cada 50 kg extras de carga podem elevar o gasto de combustível em cerca de 2% a 5%.</p>
-
-                    <h3>Dicas essenciais para economizar combustível na estrada</h3>
-                    <ul>
-                        <li><strong>Mantenha a calibragem dos pneus em dia:</strong> Pneus murchos aumentam o atrito com o asfalto e elevam o consumo em até 4%. Ajuste a pressão para a carga máxima indicada no manual antes de pegar a estrada.</li>
-                        <li><strong>Condução fluida e sem arrancadas:</strong> Evite acelerações bruscas e reduções repentinas. Manter uma velocidade constante entre 80 km/h e 100 km/h otimiza o rendimento do motor.</li>
-                        <li><strong>Cuidado com a aerodinâmica:</strong> Bagageiros externos no teto do carro ou alforjes desalinhados na moto criam resistência ao ar, o que faz o motor trabalhar mais em altas velocidades.</li>
-                    </ul>
-                </article>
-
-                <!-- BANNER DE ANÚNCIO MOBILE ANTES DO FAQ -->
-                <div class="ad-banner ad-infeed">
-                    <span class="ad-label">Publicidade</span>
-                </div>
-
-                <!-- Seção FAQ / SEO -->
-                <section class="faq-section">
-                    <h2>Perguntas Frequentes &amp; Como Funciona</h2>
-
-                    <details>
-                        <summary>Como o peso da garupa e bauletos afeta o consumo?</summary>
-                        <p>Em veículos e especialmente em motos, o peso do piloto, garupa e baús representa uma proporção expressiva do peso total. Esse peso adicional exige mais aceleração e reduz a autonomia.</p>
-                    </details>
-
-                    <details>
-                        <summary>Como ajustar o peso do meu próprio veículo?</summary>
-                        <p>Você pode alterar o campo "Peso da Moto / Carro" para o valor exato registrado no manual ou documento do seu veículo (tara em ordem de marcha).</p>
-                    </details>
-                </section>
-            </main>
-
-            <!-- BARRA LATERAL DE PUBLICIDADE QUE ACOMPANHA A ROLAGEM -->
-            <aside class="ad-sidebar-wrapper">
-                <div class="ad-banner ad-sidebar sticky-ad">
-                    <span class="ad-label">Publicidade</span>
-                </div>
-            </aside>
-        </div>
-
-        <!-- RODAPÉ COM LINKS LEGAIS E SUPORTE -->
-        <footer class="footer">
-            <p>&copy; Calculadora de Viagem &amp; Combustível - Todos os direitos reservados.</p>
-            <div class="footer-links">
-                <a href="#politica" onclick="alert('Esta aplicação não guarda dados pessoais em servidor.'); return false;">Política de Privacidade</a> |
-                <a href="#termos" onclick="alert('Ferramenta informativa para auxílio no planejamento de viagens.'); return false;">Termos de Uso</a> |
-                <a href="mailto:suporte.calculadoraviagem@gmail.com" onclick="alert('Dúvidas, sugestões ou suporte?\n\nEntre em contato pelo e-mail:\nsuporte.calculadoraviagem@gmail.com');">Suporte</a>
-            </div>
-        </footer>
+  
+  <div class="main-wrapper">
+    <!-- BANNER SUPERIOR DE ANÚNCIO (ADSENSE) -->
+    <div class="ad-banner ad-top">
+      <span class="ad-label">Publicidade</span>
     </div>
 
-    <script src="script.js" charset="UTF-8"></script>
+    <!-- CONTAINER PRINCIPAL E BARRA LATERAL -->
+    <div class="content-container">
+      <main class="container">
+        <button id="theme-toggle" class="btn-theme">Modo Escuro</button>
+
+        <h1>Calculadora de Viagem 🚗🏍️</h1>
+        <p>Calcule o custo do combustível considerando o peso do veículo, passageiros, bagagens e pedágios.</p>
+
+        <!-- Seleção Rápida de Veículo -->
+        <div class="preset-group">
+          <label>Predefinição de Veículo:</label>
+          <div class="preset-buttons">
+            <button type="button" class="btn-preset active" data-tipo="moto" data-consumo="30" data-peso="140">🏍️ Moto (~140 kg)</button>
+            <button type="button" class="btn-preset" data-tipo="carro" data-consumo="14" data-peso="980">🚗 Hatch 1.0 (~980 kg)</button>
+            <button type="button" class="btn-preset" data-tipo="carro" data-consumo="11" data-peso="1250">🚙 Sedan (~1.250 kg)</button>
+            <button type="button" class="btn-preset" data-tipo="carro" data-consumo="9" data-peso="1550">🚘 SUV médio (~1.550 kg)</button>
+          </div>
+        </div>
+
+        <form id="calc-form">
+          <!-- Tipo de Trajeto -->
+          <div class="input-group">
+            <label>Tipo de Trajeto:</label>
+            <div class="radio-group">
+              <label><input type="radio" name="tipo_trajeto" value="ida" checked> Apenas Ida</label>
+              <label><input type="radio" name="tipo_trajeto" value="idavolta"> Ida e Volta</label>
+            </div>
+          </div>
+
+          <div class="input-group">
+            <label for="distancia">Distância (km de um trecho):</label>
+            <input type="number" id="distancia" placeholder="Ex: 300" step="0.1" required>
+          </div>
+
+          <div class="input-group">
+            <label for="consumo">Consumo do Veículo Vazio (km/l):</label>
+            <input type="number" id="consumo" placeholder="Ex: 30" step="0.1" value="30" required>
+          </div>
+
+          <div class="input-group">
+            <label for="preco">Preço do Combustível (R$/litro):</label>
+            <input type="number" id="preco" placeholder="Ex: 5.80" step="0.01" required>
+          </div>
+
+          <!-- SEÇÃO DE PESOS DINÂMICA (VEÍCULO + CARGA) -->
+          <div class="input-group-row">
+            <div class="input-group">
+              <label for="peso-carro" id="label-peso-veiculo">Peso da Moto (kg):</label>
+              <input type="number" id="peso-carro" placeholder="Ex: 140" min="50" value="140">
+            </div>
+            <div class="input-group">
+              <label for="peso-bagagem" id="label-bagagem">Mala / Bauletos / Bags (kg):</label>
+              <input type="number" id="peso-bagagem" placeholder="Ex: 0" min="0" value="0">
+            </div>
+          </div>
+
+          <div class="input-group-row">
+            <div class="input-group">
+              <label for="passageiros" id="label-passageiros">Nº de Ocupantes (Piloto + Garupa):</label>
+              <input type="number" id="passageiros" value="1" min="1" max="2" required>
+            </div>
+            <div class="input-group">
+              <label for="peso-pessoa">Peso Médio p/ Pessoa (kg):</label>
+              <input type="number" id="peso-pessoa" placeholder="Ex: 75" min="30" value="75">
+            </div>
+          </div>
+
+          <div class="input-group">
+            <label for="pedagio">Pedágios / Custos Extras Totais (R$):</label>
+            <input type="number" id="pedagio" placeholder="Ex: 15.00" step="0.01" value="0">
+          </div>
+
+          <!-- Chave PIX Opcional -->
+          <div class="input-group">
+            <label for="pix">Chave PIX do Piloto / Motorista (Opcional):</label>
+            <input type="text" id="pix" placeholder="CPF, Celular, E-mail ou Aleatória">
+          </div>
+
+          <!-- Opção de Arredondamento PIX -->
+          <div class="input-group checkbox-group">
+            <label>
+              <input type="checkbox" id="arredondar-pix"> Arredondar valor por pessoa para facilitar o PIX
+            </label>
+          </div>
+
+          <button type="submit" class="btn-submit">Calcular Custo</button>
+        </form>
+
+        <!-- Comparador Flex Rápido -->
+        <div class="flex-calculator">
+          <h3>⛽ Comparador Gasolina vs. Etanol</h3>
+          <div class="flex-inputs">
+            <input type="number" id="flex-gasolina" placeholder="Preço Gasolina (R$)" step="0.01">
+            <input type="number" id="flex-etanol" placeholder="Preço Etanol (R$)" step="0.01">
+          </div>
+          <p id="flex-resultado" class="flex-res-text">Digite os preços para comparar qual compensa mais.</p>
+        </div>
+
+        <!-- Painel de Resultados -->
+        <div id="resultado" class="resultado hidden">
+          <h2>Resultado do Cálculo</h2>
+          <p>Distância Total: <strong id="distancia-total-res">-</strong></p>
+          <p>Peso do Veículo (Vazio): <strong id="peso-carro-res">-</strong> kg</p>
+          <p>Peso dos Ocupantes + Carga/Bags: <strong id="peso-carga-res">-</strong> kg</p>
+          <p>Peso Bruto Total na Rodovia: <strong id="peso-total-bruto-res">-</strong> kg</p>
+          <p>Consumo Reajustado pelo Peso: <strong id="consumo-ajustado-res">-</strong> km/l</p>
+          <p>Litros necessários: <strong id="litros-totais">-</strong> L</p>
+          <p>Custo do combustível: <strong id="custo-combustivel">-</strong></p>
+          <p>Pedágios / Extras: <strong id="custo-pedagio">-</strong></p>
+          <p>Custo total da viagem: <strong id="custo-total">-</strong></p>
+          <p>Custo estimado por km: <strong id="custo-km">-</strong></p>
+          <hr>
+          <p class="destaque">Valor por pessoa: <strong id="custo-passageiro">-</strong></p>
+
+          <!-- Seção da Chave PIX -->
+          <div id="pix-qr-container" class="pix-container hidden">
+            <p class="pix-title"><strong>Chave PIX para Transferência:</strong></p>
+            <div class="pix-copy-wrapper">
+              <span id="pix-key-display"></span>
+              <button type="button" id="btn-copy-pix" class="btn-copy">Copiar Chave PIX</button>
+            </div>
+          </div>
+
+          <!-- Botões de Ação: WhatsApp e PDF -->
+          <div class="action-buttons-wrapper">
+            <button id="btn-whatsapp" class="btn-whatsapp">📲 Compartilhar no WhatsApp</button>
+            <button id="btn-pdf" class="btn-pdf">📄 Baixar Relatório PDF</button>
+          </div>
+        </div>
+
+        <!-- BANNER DE ANÚNCIO MOBILE INTERMEDIÁRIO -->
+        <div class="ad-banner ad-infeed">
+          <span class="ad-label">Publicidade</span>
+        </div>
+
+        <!-- Guia SEO & Educativo para Indexação -->
+        <article class="guide-article">
+          <h2>Guia Prático: Como Planejar e Economizar no Combustível da Viagem</h2>
+          <p>Planejar os custos de uma viagem de carro ou moto envolve muito mais do que apenas multiplicar a distância pelo preço da gasolina na bomba. Diversos fatores operacionais — especialmente o peso extra transportado — alteram significativamente a eficiência energética do veículo nas rodovias.</p>
+
+          <h3>Como calcular o consumo real de combustível?</h3>
+          <p>O consumo oficial informado pelos fabricantes considera testes em condições ideais de laboratório com o veículo vazio. Para obter o consumo real durante uma viagem, divida a distância percorrida pela quantidade de litros necessários para encher o tanque novamente. Em viagens rodoviárias longas, considere sempre uma margem de reserva de 10% a 15% acima do valor obtido no cálculo de rotina.</p>
+
+          <h3>Como o peso de bagagens, garupa e passageiros altera o consumo?</h3>
+          <p>A física do veículo é diretamente afetada pela massa total: quanto maior o peso bruto em ordem de marcha, mais energia o motor precisa gerar para vencer a inércia e manter a velocidade de cruzeiro. Em motos, a adição de garupa e bauletos laterais pode aumentar a massa total em até 80%, resultando em uma queda de autonomia entre 20% e 30%. Nos automóveis, cada 50 kg extras de carga podem elevar o gasto de combustível em cerca de 2% a 5%.</p>
+
+          <h3>Dicas essenciais para economizar combustível na estrada</h3>
+          <ul>
+            <li><strong>Mantenha a calibragem dos pneus em dia:</strong> Pneus murchos aumentam o atrito com o asfalto e elevam o consumo em até 4%. Ajuste a pressão para a carga máxima indicada no manual antes de pegar a estrada.</li>
+            <li><strong>Condução fluida e sem arrancadas:</strong> Evite acelerações bruscas e reduções repentinas. Manter uma velocidade constante entre 80 km/h e 100 km/h otimiza o rendimento do motor.</li>
+            <li><strong>Cuidado com a aerodinâmica:</strong> Bagageiros externos no teto do carro ou alforjes desalinhados na moto criam resistência ao ar, o que faz o motor trabalhar mais em altas velocidades.</li>
+          </ul>
+        </article>
+
+        <!-- BANNER DE ANÚNCIO MOBILE ANTES DO FAQ -->
+        <div class="ad-banner ad-infeed">
+          <span class="ad-label">Publicidade</span>
+        </div>
+
+        <!-- Seção FAQ / SEO -->
+        <section class="faq-section">
+          <h2>Perguntas Frequentes &amp; Como Funciona</h2>
+          
+          <details>
+            <summary>Como o peso da garupa e bauletos afeta o consumo?</summary>
+            <p>Em veículos e especialmente em motos, o peso do piloto, garupa e baús representa uma proporção expressiva do peso total. Esse peso adicional exige mais aceleração e reduz a autonomia.</p>
+          </details>
+
+          <details>
+            <summary>Como ajustar o peso do meu próprio veículo?</summary>
+            <p>Você pode alterar o campo "Peso da Moto / Carro" para o valor exato registrado no manual ou documento do seu veículo (tara em ordem de marcha).</p>
+          </details>
+        </section>
+      </main>
+
+      <!-- BARRA LATERAL DE PUBLICIDADE QUE ACOMPANHA A ROLAGEM -->
+      <aside class="ad-sidebar-wrapper">
+        <div class="ad-banner ad-sidebar sticky-ad">
+          <span class="ad-label">Publicidade</span>
+        </div>
+      </aside>
+    </div>
+
+    <!-- RODAPÉ COM LINKS LEGAIS E SUPORTE -->
+    <footer class="footer">
+      <p>&copy; Calculadora de Viagem &amp; Combustível - Todos os direitos reservados.</p>
+      <div class="footer-links">
+        <a href="#politica" onclick="alert('Esta aplicação não guarda dados pessoais em servidor.'); return false;">Política de Privacidade</a> | 
+        <a href="#termos" onclick="alert('Ferramenta informativa para auxílio no planejamento de viagens.'); return false;">Termos de Uso</a> | 
+        <a href="mailto:suporte.calculadoraviagem@gmail.com" onclick="alert('Dúvidas, sugestões ou suporte?\n\nEntre em contato pelo e-mail:\nsuporte.calculadoraviagem@gmail.com');">Suporte</a>
+      </div>
+    </footer>
+  </div>
+
+  <script src="script.js" charset="UTF-8"></script>
 </body>
 </html>
