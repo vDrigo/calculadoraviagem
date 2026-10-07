@@ -82,7 +82,14 @@ document.addEventListener("DOMContentLoaded", () => {
       pdf_total_cost: "Custo Total da Viagem",
       pdf_per_person: "Valor por Pessoa",
       pdf_occupants: "ocupantes",
-      pdf_pix: "Chave PIX para pagamento"
+      pdf_pix: "Chave PIX para pagamento",
+      terms_title: "Termos de Uso",
+      terms_intro: "Ao utilizar a nossa calculadora de viagem, você concorda com os termos descritos abaixo.",
+      terms_h1: "1. Isenção de Responsabilidade",
+      terms_p1: "Esta calculadora fornece apenas estimativas de custos de combustível e pedágios com base nas médias inseridas pelo próprio usuário. Os valores reais podem variar devido a condições de trânsito, calibragem, estilo de condução e alterações imprevistas de tarifas rodoviárias. O uso das informações é por sua conta e risco.",
+      terms_h2: "2. Modificações na Ferramenta",
+      terms_p2: "Reservamo-nos o direito de alterar, suspender ou descontinuar qualquer aspecto do aplicativo a qualquer momento, sem aviso prévio.",
+
     },
     es: {
       doc_title: "Calculadora de Costo de Viaje - Combustible, Peaje y Reparto",
@@ -157,7 +164,14 @@ document.addEventListener("DOMContentLoaded", () => {
       pdf_total_cost: "Costo Total del Viaje",
       pdf_per_person: "Valor por Persona",
       pdf_occupants: "pasajeros",
-      pdf_pix: "Clave PIX para pago"
+      pdf_pix: "Clave PIX para pago",
+      terms_title: "Términos de Uso",
+      terms_intro: "Al utilizar nuestra calculadora de viaje, usted acepta los términos descritos a continuación.",
+      terms_h1: "1. Exención de Responsabilidad",
+      terms_p1: "Esta calculadora solo proporciona estimaciones de costos basadas en los datos ingresados por el propio usuario. Los valores reales pueden variar debido al tráfico, estilo de conducción y cambios de tarifas. El uso de esta información es bajo su propio riesgo.",
+      terms_h2: "2. Modificaciones de la Herramienta",
+      terms_p2: "Nos reservamos el derecho de modificar o suspender cualquier aspecto de la aplicación en cualquier momento sin previo aviso.",
+
     },
     en: {
       doc_title: "Trip Cost Calculator - Fuel, Tolls & Split",
@@ -232,7 +246,14 @@ document.addEventListener("DOMContentLoaded", () => {
       pdf_total_cost: "Total Trip Cost",
       pdf_per_person: "Cost per Person",
       pdf_occupants: "passengers",
-      pdf_pix: "PIX Key / Payment Info"
+      pdf_pix: "PIX Key / Payment Info",
+      terms_title: "Terms of Use",
+      terms_intro: "By using our trip calculator, you agree to the terms described below.",
+      terms_h1: "1. Disclaimer",
+      terms_p1: "This calculator provides cost estimates based on user-entered values. Actual trip expenses may vary due to traffic, tire pressure, driving habits, and toll price updates. Use this tool at your own risk.",
+      terms_h2: "2. Tool Changes",
+      terms_p2: "We reserve the right to change, suspend, or discontinue any aspect of this application at any time without prior notice."
+
     }
   };
 
