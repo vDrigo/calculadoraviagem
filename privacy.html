@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="privacy_doc_title">Política de Privacidade - Viatrip</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="site-layout">
+    <div class="main-wrapper">
+      
+      <!-- BARRA SUPERIOR DE CONTROLES (IDIOMA E TEMA) -->
+      <div class="top-controls" style="margin-top: 20px;">
+        <div class="controls-group">
+          <!-- Seletor de Idioma -->
+          <div class="lang-selector">
+            <button type="button" class="btn-lang active" data-lang="pt">🇧🇷 PT</button>
+            <button type="button" class="btn-lang" data-lang="es">🇪🇸 ES</button>
+            <button type="button" class="btn-lang" data-lang="en">🇺🇸 EN</button>
+          </div>
+        </div>
+
+        <!-- Botão de Alternar Tema (Dark/Light) -->
+        <button type="button" id="theme-toggle" class="btn-theme" data-i18n="theme_btn_dark">Modo Escuro</button>
+      </div>
+
+      <main class="container" style="margin-top: 20px;">
+        <header class="header">
+          <h1 data-i18n="privacy_main_title">Política de Privacidade</h1>
+          <p class="subtitle" data-i18n="privacy_subtitle">Sua privacidade é importante para nós.</p>
+        </header>
+
+        <div class="seo-content" style="margin-top: 0; border-top: none;">
+          <h2 data-i18n="privacy_sec1_title">1. Informações Coletadas</h2>
+          <p data-i18n="privacy_sec1_text">A Calculadora Viatrip não armazena dados pessoais dos usuários em servidores externos. Todos os cálculos são realizados diretamente no seu navegador.</p>
+          
+          <h2 data-i18n="privacy_sec2_title">2. Uso de Cookies e Anúncios (Google AdSense)</h2>
+          <p data-i18n="privacy_sec2_p1">Utilizamos parceiros de publicidade de terceiros, como o Google AdSense, para exibir anúncios quando você visita nosso site. Essas empresas podem usar informações sobre suas visitas a este e a outros websites a fim de exibir anúncios relacionados a bens e serviços de seu interesse.</p>
+          <p data-i18n="privacy_sec2_p2">O Google, como fornecedor terceiro, utiliza cookies para exibir anúncios neste site.</p>
+
+          <h2 data-i18n="privacy_sec3_title">3. Consentimento</h2>
+          <p data-i18n="privacy_sec3_text">Ao utilizar nossa ferramenta, você concorda com a nossa Política de Privacidade.</p>
+
+          <div style="margin-top: 30px; text-align: center;">
+            <a href="index.html" class="btn-primary" style="display: inline-block; text-decoration: none; padding: 10px 20px;" data-i18n="privacy_btn_back">Voltar para a Calculadora</a>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- SCRIPT PARA TRADUÇÃO E TEMA DA PÁGINA DE PRIVACIDADE -->
+  <script>
+    const translations = {
+      pt: {
+        privacy_doc_title: "Política de Privacidade - Viatrip",
+        theme_btn_dark: "Modo Escuro",
+        theme_btn_light: "Modo Claro",
+        privacy_main_title: "Política de Privacidade",
+        privacy_subtitle: "Sua privacidade é importante para nós.",
+        privacy_sec1_title: "1. Informações Coletadas",
+        privacy_sec1_text: "A Calculadora Viatrip não armazena dados pessoais dos usuários em servidores externos. Todos os cálculos são realizados diretamente no seu navegador.",
+        privacy_sec2_title: "2. Uso de Cookies e Anúncios (Google AdSense)",
+        privacy_sec2_p1: "Utilizamos parceiros de publicidade de terceiros, como o Google AdSense, para exibir anúncios quando você visita nosso site. Essas empresas podem usar informações sobre suas visitas a este e a outros websites a fim de exibir anúncios relacionados a bens e serviços de seu interesse.",
+        privacy_sec2_p2: "O Google, como fornecedor terceiro, utiliza cookies para exibir anúncios neste site.",
+        privacy_sec3_title: "3. Consentimento",
+        privacy_sec3_text: "Ao utilizar nossa ferramenta, você concorda com a nossa Política de Privacidade.",
+        privacy_btn_back: "Voltar para a Calculadora"
+      },
+      es: {
+        privacy_doc_title: "Política de Privacidad - Viatrip",
+        theme_btn_dark: "Modo Oscuro",
+        theme_btn_light: "Modo Claro",
+        privacy_main_title: "Política de Privacidad",
+        privacy_subtitle: "Su privacidad es importante para nosotros.",
+        privacy_sec1_title: "1. Información Recopilada",
+        privacy_sec1_text: "La Calculadora Viatrip no almacena datos personales de los usuarios en servidores externos. Todos los cálculos se realizan directamente en su navegador.",
+        privacy_sec2_title: "2. Uso de Cookies y Anuncios (Google AdSense)",
+        privacy_sec2_p1: "Utilizamos socios publicitarios de terceros, como Google AdSense, para mostrar anuncios cuando visita nuestro sitio web. Estas empresas pueden usar información sobre sus visitas a este y otros sitios web para mostrar anuncios relacionados con bienes y servicios de su interés.",
+        privacy_sec2_p2: "Google, como proveedor externo, utiliza cookies para mostrar anuncios en este sitio.",
+        privacy_sec3_title: "3. Consentimiento",
+        privacy_sec3_text: "Al utilizar nuestra herramienta, usted acepta nuestra Política de Privacidad.",
+        privacy_btn_back: "Volver a la Calculadora"
+      },
+      en: {
+        privacy_doc_title: "Privacy Policy - Viatrip",
+        theme_btn_dark: "Dark Mode",
+        theme_btn_light: "Light Mode",
+        privacy_main_title: "Privacy Policy",
+        privacy_subtitle: "Your privacy is important to us.",
+        privacy_sec1_title: "1. Information Collected",
+        privacy_sec1_text: "The Viatrip Calculator does not store user personal data on external servers. All calculations are performed directly in your browser.",
+        privacy_sec2_title: "2. Use of Cookies and Ads (Google AdSense)",
+        privacy_sec2_p1: "We use third-party advertising partners, such as Google AdSense, to display ads when you visit our website. These companies may use information about your visits to this and other websites to provide relevant ads about goods and services of interest to you.",
+        privacy_sec2_p2: "Google, as a third-party vendor, uses cookies to serve ads on this site.",
+        privacy_sec3_title: "3. Consent",
+        privacy_sec3_text: "By using our tool, you agree to our Privacy Policy.",
+        privacy_btn_back: "Back to Calculator"
+      }
+    };
+
+    let currentLang = "pt";
+    const btnLangs = document.querySelectorAll(".btn-lang");
+    const themeToggle = document.getElementById("theme-toggle");
+
+    function setLanguage(lang) {
+      currentLang = lang;
+      btnLangs.forEach(b => {
+        b.classList.toggle("active", b.getAttribute("data-lang") === lang);
+      });
+      document.querySelectorAll("[data-i18n]").forEach(el => {
+        const key = el.getAttribute("data-i18n");
+        if (translations[lang] && translations[lang][key]) {
+          el.innerHTML = translations[lang][key];
+        }
+      });
+    }
+
+    btnLangs.forEach(btn => {
+      btn.addEventListener("click", () => setLanguage(btn.getAttribute("data-lang")));
+    });
+
+    themeToggle.addEventListener("click", () => {
+      const isLight = document.documentElement.getAttribute("data-theme") === "light";
+      if (isLight) {
+        document.documentElement.removeAttribute("data-theme");
+        themeToggle.textContent = translations[currentLang].theme_btn_dark;
+      } else {
+        document.documentElement.setAttribute("data-theme", "light");
+        themeToggle.textContent = translations[currentLang].theme_btn_light;
+      }
+    });
+  </script>
+</body>
+</html>
