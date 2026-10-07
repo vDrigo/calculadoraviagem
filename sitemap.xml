@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://sitemaps.org">
+    <!-- Página Principal da Calculadora -->
+    <url>
+        <loc>https://viatripcalc.com</loc>
+        <lastmod>2026-10-06</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>1.0</priority>
+    </url>
+    
+    <!-- Página da Política de Privacidade -->
+    <url>
+        <loc>https://viatripcalc.comprivacy.html</loc>
+        <lastmod>2026-10-06</lastmod>
+        <changefreq>yearly</changefreq>
+        <priority>0.5</priority>
+    </url>
+</urlset>
