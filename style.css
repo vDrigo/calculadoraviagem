@@ -63,14 +63,9 @@ body {
 }
 
 .sidebar-ad-box {
-  background: var(--card-bg);
-  border: 2px dashed var(--border-color);
-  border-radius: 10px;
-  min-height: 600px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--text-muted);
+  background: transparent; /* Antes estava var(--card-bg) */
+  border: none;             /* Antes estava 2px dashed var(--border-color) */
+  min-height: auto;         /* Deixe automático enquanto não carrega anúncios */
 }
 
 .main-wrapper {
@@ -186,16 +181,9 @@ body {
 }
 
 .ad-box-content {
-  background: var(--input-bg);
-  border: 2px dashed var(--border-color);
-  border-radius: 10px;
-  padding: 15px;
-  text-align: center;
-  min-height: 90px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
+  background: transparent;
+  border: none;
+  min-height: auto;
 }
 
 /* FORMULÁRIO */
